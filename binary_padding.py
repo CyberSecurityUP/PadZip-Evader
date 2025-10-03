@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
-PadZip-Evader - Binary Padding & ZIP Oversize Tool 
+PadZip-Evader - Binary Padding & ZIP Oversize Evasion Tool
+Educational tool for demonstrating AV/EDR evasion techniques
 Created by Joas A Santos
 """
 
@@ -11,9 +12,21 @@ import hashlib
 import argparse
 from pathlib import Path
 
-class BinaryPaddingTool:
+class PadZipEvader:
     def __init__(self):
         self.version = "2.0"
+        self.tool_name = "PadZip-Evader"
+        
+    def print_banner(self):
+        """Display tool banner"""
+        banner = f"""
+╔════════════════════════════════════════════════════════════════╗
+║                   PadZip-Evader v{self.version}                      ║
+║          Binary Padding & ZIP Oversize Evasion Tool           ║
+║                  For Educational Use Only                     ║
+╚════════════════════════════════════════════════════════════════╝
+"""
+        print(banner)
         
     def calculate_hashes(self, filepath):
         """Calculate multiple hash types for file identification"""
@@ -86,7 +99,7 @@ class BinaryPaddingTool:
         original_size = os.path.getsize(input_file)
         padding_size = inflate_size_mb * 1024 * 1024
         
-        print(f"[*] Starting binary padding operation")
+        print(f"\n[+] Starting PadZip-Evader Binary Padding")
         print(f"    Input file: {input_file}")
         print(f"    Output file: {output_file}")
         print(f"    Original size: {original_size:,} bytes")
@@ -107,7 +120,7 @@ class BinaryPaddingTool:
                 chunks_needed = padding_size // chunk_size
                 remainder = padding_size % chunk_size
                 
-                print(f"[*] Applying padding...")
+                print(f"[*] Applying evasion padding...")
                 for i in range(chunks_needed):
                     outfile.write(padding_byte * chunk_size)
                     if i % 10 == 0:  # Progress indicator every 10MB
@@ -118,7 +131,7 @@ class BinaryPaddingTool:
                     outfile.write(padding_byte * remainder)
             
             final_size = os.path.getsize(output_file)
-            print(f"[+] Padding completed successfully!")
+            print(f"[+] PadZip evasion completed successfully!")
             print(f"    Final size: {final_size:,} bytes ({final_size/1024/1024:.2f} MB)")
             print(f"    Size increase: {final_size - original_size:,} bytes")
             
@@ -128,16 +141,16 @@ class BinaryPaddingTool:
             print(f"[-] Error during padding operation: {e}")
             return False
     
-    def create_compressed_archive(self, input_files, output_zip, compression_level=9):
+    def create_evasion_archive(self, input_files, output_zip, compression_level=9):
         """
-        Create a highly compressed ZIP archive
+        Create a highly compressed ZIP archive for evasion
         
         Args:
             input_files: List of files to include in ZIP
             output_zip: Output ZIP filename
             compression_level: ZIP compression level (0-9)
         """
-        print(f"\n[*] Creating compressed archive: {output_zip}")
+        print(f"\n[+] Creating PadZip Evasion Archive: {output_zip}")
         
         # Filter existing files
         existing_files = [f for f in input_files if os.path.exists(f)]
@@ -159,46 +172,30 @@ class BinaryPaddingTool:
             compressed_size = os.path.getsize(output_zip)
             compression_ratio = total_original_size / compressed_size if compressed_size > 0 else 0
             
-            print(f"[+] Archive created successfully!")
+            print(f"[+] Evasion archive created successfully!")
             print(f"    Total original size: {total_original_size:,} bytes")
             print(f"    Compressed size: {compressed_size:,} bytes")
             print(f"    Compression ratio: {compression_ratio:.2f}:1")
             print(f"    Space savings: {((1 - (compressed_size / total_original_size)) * 100):.1f}%")
             
+            # Evasion assessment
+            if compression_ratio > 100:
+                print(f"    [EVASION] Extreme compression detected - likely to bypass scanners")
+            elif compression_ratio > 10:
+                print(f"    [EVASION] High compression - potential scanner bypass")
+            
             return True
             
         except Exception as e:
-            print(f"[-] Error creating archive: {e}")
+            print(f"[-] Error creating evasion archive: {e}")
             return False
-    
-    def advanced_padding_techniques(self, input_file, output_file, techniques):
-        """
-        Apply advanced padding techniques for evasion
-        
-        Args:
-            input_file: Input executable
-            output_file: Output file
-            techniques: Dictionary of techniques to apply
-        """
-        print(f"\n[*] Applying advanced padding techniques")
-        
-        if 'append_padding' in techniques:
-            self.binary_padding(input_file, output_file, 
-                              techniques['append_padding']['size_mb'],
-                              techniques['append_padding']['type'])
-        
-        if 'prepend_padding' in techniques:
-            print(f"[*] Prepend padding not implemented in this version")
-        
-        if 'section_padding' in techniques:
-            print(f"[*] PE section padding not implemented in this version")
     
     def demonstrate_evasion_technique(self, input_exe, output_dir):
         """
-        Complete demonstration of oversize evasion technique
+        Complete demonstration of PadZip evasion technique
         """
         print(f"\n{'='*60}")
-        print("COMPLETE EVASION TECHNIQUE DEMONSTRATION")
+        print("PADZIP EVASION TECHNIQUE DEMONSTRATION")
         print(f"{'='*60}")
         
         if not os.path.exists(input_exe):
@@ -209,42 +206,43 @@ class BinaryPaddingTool:
         self.print_file_info(input_exe, "ORIGINAL EXECUTABLE")
         
         # Step 2: Create padded version
-        padded_exe = os.path.join(output_dir, "padded_executable.exe")
+        padded_exe = os.path.join(output_dir, "padded_evasion.exe")
         if self.binary_padding(input_exe, padded_exe, inflate_size_mb=150, padding_type='null'):
-            self.print_file_info(padded_exe, "AFTER BINARY PADDING")
+            self.print_file_info(padded_exe, "AFTER BINARY PADDING EVASION")
         
         # Step 3: Create compressed archive
-        output_zip = os.path.join(output_dir, "compressed_delivery.zip")
-        if self.create_compressed_archive([padded_exe], output_zip, compression_level=9):
-            self.print_file_info(output_zip, "FINAL COMPRESSED DELIVERY")
+        output_zip = os.path.join(output_dir, "padzip_evasion_package.zip")
+        if self.create_evasion_archive([padded_exe], output_zip, compression_level=9):
+            self.print_file_info(output_zip, "FINAL EVASION DELIVERY PACKAGE")
         
-        print(f"\n[+] Demonstration completed!")
-        print(f"    Original EXE -> Padded EXE -> Small ZIP")
-        print(f"    Ready for testing in controlled environment")
+        print(f"\n[+] PadZip evasion demonstration completed!")
+        print(f"    Evasion Chain: Original EXE → Padded EXE → Compressed ZIP")
+        print(f"    Technique: Binary Padding + Oversize Compression")
+        print(f"    Ready for authorized testing in controlled environment")
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Enhanced Binary Padding & ZIP Compression Tool",
-        epilog="""
+        description="PadZip-Evader - Binary Padding & ZIP Compression Evasion Tool",
+        epilog="""""
 EXAMPLES:
-  # Basic binary padding
-  python binary_padding.py -f mimikatz.exe -s 100
+  # Basic binary padding evasion
+  python padzip-evader.py -f mimikatz.exe -s 100
   
-  # Padding with custom output and type
-  python binary_padding.py -f tool.exe -s 200 -o padded_tool.exe -t ff
+  # Padding with custom output and evasion type
+  python padzip-evader.py -f tool.exe -s 200 -o evaded_tool.exe -t ff
   
-  # Create compressed archive only
-  python binary_padding.py -f file.exe --zip-only -z delivery.zip
+  # Create evasion archive only
+  python padzip-evader.py -f file.exe --zip-only -z evasion_delivery.zip
   
-  # Complete demonstration
-  python binary_padding.py -f sample.exe --demo
+  # Complete evasion demonstration
+  python padzip-evader.py -f sample.exe --demo
   
-  # Multiple files in archive
-  python binary_padding.py -f file1.exe file2.dll --zip-only -z bundle.zip
+  # Multiple files in evasion archive
+  python padzip-evader.py -f file1.exe file2.dll --zip-only -z evasion_bundle.zip
 
 SECURITY NOTE:
-  This tool is for legitimate security research, authorized penetration testing,
-  and educational purposes only. Always ensure proper authorization before use.
+  🔒 FOR AUTHORIZED RESEARCH ONLY - Use responsibly and ethically.
+  Only test on systems you own or have explicit written permission to test.
         """,
         formatter_class=argparse.RawDescriptionHelpFormatter
     )
@@ -262,22 +260,23 @@ SECURITY NOTE:
     
     # ZIP options
     parser.add_argument('--zip-only', dest='zip_only', action='store_true',
-                       help='Create ZIP archive without padding')
+                       help='Create ZIP evasion archive without padding')
     parser.add_argument('-z', '--zip', dest='zip_file',
-                       help='Output ZIP filename')
+                       help='Output ZIP filename for evasion archive')
     parser.add_argument('-l', '--compression-level', dest='compression_level',
                        type=int, default=9, choices=range(0, 10),
                        help='ZIP compression level 0-9 (default: 9)')
     
     # Advanced options
     parser.add_argument('--demo', dest='demo_mode', action='store_true',
-                       help='Run complete demonstration')
+                       help='Run complete evasion technique demonstration')
     parser.add_argument('--info', dest='info_only', action='store_true',
                        help='Show file information only')
     
     args = parser.parse_args()
     
-    tool = BinaryPaddingTool()
+    tool = PadZipEvader()
+    tool.print_banner()
     
     # Input validation
     for input_file in args.input_files:
@@ -297,35 +296,36 @@ SECURITY NOTE:
         return
     
     if args.zip_only:
-        # ZIP creation only
-        output_zip = args.zip_file or "compressed_files.zip"
-        tool.create_compressed_archive(args.input_files, output_zip, args.compression_level)
+        # Evasion archive creation only
+        output_zip = args.zip_file or "padzip_evasion.zip"
+        tool.create_evasion_archive(args.input_files, output_zip, args.compression_level)
         if os.path.exists(output_zip):
-            tool.print_file_info(output_zip, "CREATED ARCHIVE")
+            tool.print_file_info(output_zip, "EVASION ARCHIVE CREATED")
     else:
-        # Binary padding with optional ZIP
+        # Binary padding with optional evasion archive
         for input_file in args.input_files:
             print(f"\n{'#'*60}")
-            print(f"PROCESSING: {input_file}")
+            print(f"PADZIP EVASION PROCESSING: {input_file}")
             print(f"{'#'*60}")
             
             # Show original info
             tool.print_file_info(input_file, "ORIGINAL FILE")
             
-            # Apply padding
+            # Apply evasion padding
             output_exe = args.output_file or input_file
             if tool.binary_padding(input_file, output_exe, args.inflate_size, args.padding_type):
                 # Show modified info
-                tool.print_file_info(output_exe, "PADDED FILE")
+                tool.print_file_info(output_exe, "EVASION PADDED FILE")
                 
-                # Create ZIP if requested
+                # Create evasion archive if requested
                 if args.zip_file:
-                    tool.create_compressed_archive([output_exe], args.zip_file, args.compression_level)
+                    tool.create_evasion_archive([output_exe], args.zip_file, args.compression_level)
                     if os.path.exists(args.zip_file):
-                        tool.print_file_info(args.zip_file, "FINAL ARCHIVE")
+                        tool.print_file_info(args.zip_file, "FINAL EVASION PACKAGE")
     
-    print(f"\n[+] Operations completed successfully!")
-    print(f"[!] REMINDER: For authorized testing and research only!")
+    print(f"\n[+] PadZip-Evader operations completed successfully!")
+    print(f"🔒 REMINDER: For authorized security research and testing only!")
+    print(f"📚 Educational purpose: Demonstrate AV/EDR evasion techniques")
 
 if __name__ == "__main__":
     main()
