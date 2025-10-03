@@ -1,4 +1,4 @@
-# Binary Padding & ZIP Oversize Tool
+# PadZip Evader - Binary Padding & ZIP Oversize Tool
 
 ## Overview
 
